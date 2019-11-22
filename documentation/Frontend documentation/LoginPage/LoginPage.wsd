@@ -1,0 +1,33 @@
+@startuml
+
+title
+ <b>Login Page</b>
+end title
+
+actor User
+autonumber
+
+User -> LoginPage: request page
+LoginPage --> User : get Login page
+loop until submit data
+    User -> LoginPage : insert data into fields
+    LoginPage -> LoginController : update the ts models
+    LoginController -> LoginPage : get added data
+    LoginPage --> User : view data
+end
+User -> LoginPage : Submit data
+LoginPage -> LoginController  :  login()
+LoginController -> HttpService : loginUser() 
+HttpService -> Rest_Backend : POST : /login
+alt Incortect input
+    Rest_Backend --> HttpService: empty JSON
+    HttpService --> LoginController: throw error 
+    LoginController --> LoginPage: fill error message in page
+    LoginPage -->User:  get the error message
+end
+Rest_Backend --> HttpService : Id_User and Token
+HttpService -> HomeController: redirect to Home page
+HomeController -> HomePage: fill up the page
+HomePage --> User : request page
+
+@enduml 

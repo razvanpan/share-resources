@@ -1,0 +1,84 @@
+<app-navbar></app-navbar>
+<br>
+<div class="ui-g-12">
+	<div class="ui-g-2 ui-md-2 ui-sm-1"></div>
+	<div class="ui-g-8 ui-md-8 ui-sm-11">
+		<h1 >Browse Resources</h1>
+    <hr>
+      <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+      <input #searchTerm  type="text" pInputText size="50" placeholder="Search by title...">
+      <button pButton (click)="performSearch(searchTerm,this.categoryId)" label="Search"></button>
+      <p-dropdown [options]="categories" [(ngModel)]="this.categoryId" [filter]="false"  [style]="{'width':'150px'}"></p-dropdown>
+      <br>
+		<p-dataTable *ngIf="visible" [value]="resources" [rows]="5" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20,100]"
+		[responsive]="true" [stacked]="stacked" tableStyleClass="prime-table"
+		selectionMode="single" [(selection)]="selectedResource" (onRowSelect)="onRowSelect($event)" resizableColumns="yes"  columnResizeMode="fit" [tableStyle]="{'table-layout':'auto'}">
+			<p-header id="capul">List of Available Resources</p-header>
+			<p-column [style]="{'text-align':'center'}" field="title" header="Title" [sortable]="true"  ></p-column>
+			<p-column [style]="{'text-align':'center'}" field="fullNameUser" header="User name" [sortable]="true" ></p-column>
+			<p-column [style]="{'text-align':'center'}" field="shortDescription" header="Short Description" [sortable]="true" styleClass="pr-column1"></p-column>
+			<p-column [style]="{'text-align':'center'}" field="categoryName" header="Category Name" [sortable]="true" ></p-column>
+			<p-column [style]="{'text-align':'center'}" field="tags" header="Tags Name" [sortable]="true"> </p-column>
+		</p-dataTable>
+		<br>
+	</div>
+	<div class="ui-g-2 ui-md-2 ui-sm-1"></div>
+</div>
+
+<p-dialog header="{{selectedResource.title}}" [(visible)]="displayDialog" [width]="800"  [contentStyle]="{'overflow':'visible'}" modal="modal">
+
+    <div class="ui-g-8">
+      <div>
+        <p-fieldset legend="Data:">
+          <div class="ma">
+            <br><br>
+
+            <div>
+              <span style="font-weight: bold">Type:</span>{{selectedResource.type}}
+            </div>
+            <br>
+            <div>
+              <span style="font-weight: bold">Description:</span>{{selectedResource.shortDescription}}
+            </div>
+            <br>
+            <div>
+              <span style="font-weight: bold">Book Type:</span>{{selectedResource.categoryName}}
+            </div>
+            <br>
+            <div>
+              <span style="font-weight: bold">Tags:</span>{{selectedResource.tags}}
+            </div>
+            <br>
+            <div>
+              <span style="font-weight: bold">Owner:</span>{{selectedResource.fullNameUser}}
+            </div>
+            <br>
+            <div>
+              <span style="font-weight: bold">Owner's email:</span>{{selectedResource.email}}
+            </div>
+            <br>
+            <div>
+              <span style="font-weight: bold">Owner's phone number:</span>{{selectedResource.phone}}
+            </div>
+            <br>
+            <br><br><br>
+          </div>
+          <div class="buttons ">
+            <button pButton (click)="cancel()" style="float:left;" label="Cancel"></button>
+            <button pButton style="float:right;" label="Send Request"></button>
+          </div>
+        </p-fieldset>
+      </div>
+    </div>
+
+    <div class="ui-g-4" >
+      <div>
+        <p-fieldset  legend="Profile Picture">
+          <img class="pictura" alt="Book Picture" src="data:image/png;base64,{{selectedResource.photo}}" />
+        </p-fieldset>
+        <br>
+      </div>
+    </div>
+
+	<br><br>
+</p-dialog>

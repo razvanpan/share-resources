@@ -1,0 +1,26 @@
+@startuml
+
+autonumber
+
+WebCient -> ResourceController: HTTP: POST /user/{id}/resource
+ResourceController -> ResourceService: addResource: ResourceToInsertDto
+ResourceService ->ResourceDao: addNewResource: ResourceToInsert
+ResourceDao -> DB: SQL query
+
+DB--> ResourceDao: Query Response
+
+alt resource could not be added
+    
+    ResourceDao --> ResourceService: null reference
+    ResourceService --> ResourceController: null reference 
+    ResourceController --> WebCient: HTTP code 204
+end
+
+alt resources added
+    ResourceDao --> ResourceService: the ResourceToInsert
+    ResourceService -> ResourceService: convertToDto()
+    ResourceService --> ResourceController: the ResourceToInsertDto instance 
+    ResourceController --> WebCient: HTTP code 200: the ResourceToInsertDto as JSON 
+end
+
+@enduml

@@ -1,0 +1,97 @@
+@startuml
+
+title
+ <b>Profile Page</b>
+end title
+
+actor User
+autonumber 
+
+User -> MyProfileHtmlPage: request page
+MyProfileHtmlPage -> MyProfileController: onInit()
+MyProfileController -> HttpService: getUserData()
+HttpService -> REST_Backend: GET: user/{id}
+alt httpStatus other then 200
+    REST_Backend --> HttpService: empty JSON
+    HttpService --> MyProfileController: throw error "backend has unconsistant data, user data not found"
+    MyProfileController --> MyProfileHtmlPage: fill error message in page
+    MyProfileHtmlPage -->User:  get the error message
+end
+REST_Backend --> HttpService: UserData as JSON
+HttpService --> MyProfileController: returns the UserDat as Object
+MyProfileController --> MyProfileHtmlPage: fill up the page
+MyProfileHtmlPage  --> User: get requested page
+
+newpage Edit Profile Data
+User-> MyProfileHtmlPage: editStandrData
+MyProfileHtmlPage --> User : get Edit page
+loop until save or cancel 
+    User -> MyProfileHtmlPage : insert new data into edit fields
+    MyProfileHtmlPage ->MyProfileController: update the ts models
+    MyProfileController --> MyProfileHtmlPage : get edited data
+    MyProfileHtmlPage --> User : view all edited data
+end
+User -> MyProfileHtmlPage: save the changes
+MyProfileHtmlPage -> MyProfileController : save()
+MyProfileController -> HttpService: updateUserData()
+HttpService -> REST_Backend: PUT: /user/{id}
+alt Incorrect input data / 400 Bad request
+    REST_Backend --> HttpService: empty JSON
+    HttpService --> MyProfileController: throw error "backend has unconsistant data, user data not found"
+    MyProfileController --> MyProfileHtmlPage: fill error message in page
+    MyProfileHtmlPage -->User:  get the error essage
+end
+REST_Backend --> HttpService: UserData as JSON
+HttpService --> MyProfileController: returns the UserData as Object
+MyProfileController --> MyProfileHtmlPage: fill up the page
+MyProfileHtmlPage  --> User: get requested page
+
+newpage Edit Profile Picture
+User-> MyProfileHtmlPage: editStandrData
+MyProfileHtmlPage --> User : get Edit page
+loop until save or cancel 
+    User -> MyProfileHtmlPage : upload photo into photo fields
+    MyProfileHtmlPage ->MyProfileController: update the ts models
+    MyProfileController --> MyProfileHtmlPage : get edited data
+    MyProfileHtmlPage --> User : view all edited data
+end
+User -> MyProfileHtmlPage: save the changes
+MyProfileHtmlPage -> MyProfileController : save()
+MyProfileController -> HttpService: updateUserData()
+HttpService -> REST_Backend: PUT: /user/{id}
+alt Incorrect input data / 400 Bad request
+    REST_Backend --> HttpService: empty JSON
+    HttpService --> MyProfileController: throw error "backend has unconsistant data, user data not found"
+    MyProfileController --> MyProfileHtmlPage: fill error message in page
+    MyProfileHtmlPage -->User:  get the error essage
+end
+REST_Backend --> HttpService: UserData as JSON
+HttpService --> MyProfileController: returns the UserDat as Object
+MyProfileController --> MyProfileHtmlPage: fill up the page
+MyProfileHtmlPage  --> User: get requested page
+
+newpage Change Password
+User-> MyProfileHtmlPage: change password page
+MyProfileHtmlPage --> User : get change password page
+loop until save or cancel 
+    User -> MyProfileHtmlPage : insert old and new password
+    MyProfileHtmlPage ->MyProfileController: update the ts models
+    MyProfileController --> MyProfileHtmlPage : get the inserted data
+    MyProfileHtmlPage --> User : view all edited data
+end
+User -> MyProfileHtmlPage: save the changes
+MyProfileHtmlPage -> MyProfileController : savePassword()
+MyProfileController -> HttpService: updateUserData()
+HttpService -> REST_Backend: PUT: /user/id/password
+alt Incorrect input data / 400 Bad request
+    REST_Backend --> HttpService: empty JSON
+    HttpService --> MyProfileController: throw error "incorect input data in backend, format of the password not match"
+    MyProfileController --> MyProfileHtmlPage: fill error message in page
+    MyProfileHtmlPage -->User:  get the error essage
+end
+REST_Backend --> HttpService: UserPassword as JSON
+HttpService --> MyProfileController: returns the UserPassword as Object
+MyProfileController --> MyProfileHtmlPage: fill up the page
+MyProfileHtmlPage  --> User: get requested page
+
+@enduml

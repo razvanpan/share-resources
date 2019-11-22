@@ -1,0 +1,30 @@
+@startuml
+
+
+title
+ <b>Browse Resource Page Page</b>
+end title
+
+actor User
+autonumber
+
+User -> BrowsePage: request page
+BrowsePage -> BrowseController: inInit()
+BrowseController -> HttpService : getAllResources()
+HttpService -> REST_Backend: GET: /resource
+alt HttpStatus other then 200
+    REST_Backend  --> HttpService : empty JSON
+    HttpService --> BrowseController : throw error "backend has unconsistant data, resource data not found"
+    BrowseController --> BrowsePage : fill error message in page 
+    BrowsePage --> User : get the error message
+end
+REST_Backend --> HttpService : Data of all resource form DB as JSON
+HttpService --> BrowseController : return the data of all resource form DB
+BrowseController --> BrowsePage : fill up the page with data
+BrowsePage --> User : get requested page
+
+newpage View one resource
+User -> BrowsePage : view one resource
+BrowsePage --> User : get data of that resource
+
+@enduml

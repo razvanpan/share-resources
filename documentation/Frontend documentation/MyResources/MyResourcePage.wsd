@@ -1,0 +1,71 @@
+@startuml
+
+title
+ <b>My Resource Page</b>
+end title
+
+actor User
+
+User -> MyResourcePage : request page
+MyResourcePage -> MyResourceController : onInit()
+MyResourceController -> HttpService : get resource of the user
+HttpService -> REST_Backend : user/id/resource
+alt httpStatus other then 200
+    REST_Backend --> HttpService : empty JSON
+    HttpService --> MyResourceController : throw error
+    MyResourceController --> MyResourcePage : fill error message in page
+    MyResourcePage --> User : get the error message
+end 
+REST_Backend --> HttpService : Resource of the user as JSON
+HttpService --> MyResourceController : returns all the resource of the user
+MyResourceController --> MyResourcePage : fill up the page 
+MyResourcePage --> User : get requested page
+
+newpage Edit one resource
+User -> MyResourcePage : edit the data of the resource
+MyResourcePage --> User : get Edit page
+loop until save or cancel 
+    User -> MyResourcePage : insert new data into edit fields
+    MyResourcePage -> MyResourceController : update the ts model
+    MyResourceController --> MyResourcePage : get edited data
+    MyResourcePage --> User : view all edited data
+end
+User -> MyResourcePage : save the changes 
+MyResourcePage -> MyResourceController : save()
+MyResourceController -> HttpService : update the data of the resource 
+HttpService -> REST_Backend: PUT: /resource/idResource
+alt Incorrect input data / 400 bad Request
+    REST_Backend --> HttpService : empty JSON
+    HttpService --> MyResourceController : throw error
+    MyResourceController --> MyResourcePage : fill error message in page
+    MyResourcePage --> User : get the error message 
+end
+REST_Backend --> HttpService : All data of the resource as JSON
+HttpService --> MyResourceController : returns the data of the resource as object
+MyResourceController --> MyResourcePage: fill up the page
+MyResourcePage --> User : get requested page 
+
+newpage Change picture of the resource
+User-> MyResourcePage: edit photo of the resource
+MyResourcePage --> User : get Edit page
+loop until save or cancel 
+    User -> MyResourcePage : upload photo into photo fields
+    MyResourcePage ->MyResourceController: update the ts models
+    MyResourceController --> MyResourcePage : get edited data
+    MyResourcePage --> User : view all edited data
+end
+User -> MyResourcePage: save the changes
+MyResourcePage -> MyResourceController : save()
+MyResourceController -> HttpService: updateUserData()
+HttpService -> REST_Backend: PUT: /resource/idResource
+alt Incorrect input data / 400 Bad request
+    REST_Backend --> HttpService: empty JSON
+    HttpService --> MyResourceController: throw error 
+    MyResourceController --> MyResourcePage: fill error message in page
+    MyResourcePage -->User:  get the error essage
+end
+REST_Backend --> HttpService: UserData as JSON
+HttpService --> MyResourceController: returns the UserDat as Object
+MyResourceController --> MyResourcePage: fill up the page
+MyResourcePage  --> User: get requested page
+@enduml

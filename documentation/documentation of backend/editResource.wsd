@@ -1,0 +1,26 @@
+@startuml
+
+autonumber
+
+WebCient -> ResourceController: HTTP: PUT /resource/{id}
+ResourceController -> ResourceService: editResource: ResourceToEditDto 
+ResourceService ->ResourceDao: editResource: ResourceToEdit
+ResourceDao -> DB: SQL query
+
+DB--> ResourceDao: Query Response
+
+alt resource could not be edited
+    
+    ResourceDao --> ResourceService: return false: Resource can not be added
+    ResourceService --> ResourceController: null reference 
+    ResourceController --> WebCient: HTTP code 204 
+end
+
+alt resource edited
+    ResourceDao --> ResourceService: the ResourceToEdit
+    ResourceService -> ResourceService: convertToDto()
+    ResourceService --> ResourceController: the ResourceToEditDto instance 
+    ResourceController --> WebCient: HTTP code 200: the ResourceToEditDto as JSON 
+end
+
+@enduml

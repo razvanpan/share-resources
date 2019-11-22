@@ -1,0 +1,16 @@
+{panel:title=User Story}
+As a <type of user>,
+I want <to perform some task>
+so that I can <achieve some goal/benefit/value>.
+{panel}
+
+h4. Description
+
+h4. Acceptance Criterion
+||ID||Criteria||Status: (!) (/) (x)||
+|AK-1|Criteria|            (!)|
+
+h4.  Definition of Done 
+||ID||Criteria||Status: (!) (/) (x)||
+|DoD-1|Code is merged to develop branch|            (!)|
+|DoD-2|Bamboo job is green|            (!)|

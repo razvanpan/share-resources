@@ -1,0 +1,26 @@
+@startuml
+
+autonumber
+
+WebCient -> UserController: HTTP: GET /user/{id}
+UserController -> UserService: getUserById(Long id): UserPersonalDetailDto 
+UserService ->UserDao: findUserById(Long id): UserBase
+UserDao -> DB: SQL query
+
+DB--> UserDao: Query Response
+
+alt user not found
+    
+    UserDao --> UserService: null reference
+    UserService --> UserController: null reference 
+    UserController --> WebCient: HTTP code 204: content not found 
+end
+
+alt user found
+    UserDao --> UserService: the UserBase
+    UserService -> UserService: convertToDto()
+    UserService --> UserController: the UserDetailDto instance 
+    UserController --> WebCient: HTTP code 200: the UserDetailDto as JSON 
+end
+
+@enduml

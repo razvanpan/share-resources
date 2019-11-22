@@ -1,0 +1,34 @@
+@startuml
+
+title
+ <b>Profile Page</b>
+end title
+
+actor User
+autonumber 
+
+User -> RegisterHtmlPage: request page
+RegisterHtmlPage -->User : get the register page
+loop until submit or cancel
+    User -> RegisterHtmlPage : insert new data into fields
+    RegisterHtmlPage -> RegisterController: update the ts model
+    RegisterController --> RegisterHtmlPage : get inserted data
+    RegisterHtmlPage --> User : view the inserted data
+end
+User -> RegisterHtmlPage : submit
+RegisterHtmlPage -> RegisterController : save()
+RegisterController -> HttpService : insert the data of the user 
+HttpService -> REST_Backend: POST : /register/
+alt Incorrect intupt data 
+    REST_Backend --> HttpService: empty JSON
+    HttpService --> RegisterController: throw error
+    RegisterController --> RegisterHtmlPage : fill the error message
+    RegisterHtmlPage --> User : get the error message
+end
+REST_Backend --> HttpService :  user data as JSON
+HttpService -> LoginController : redirect to Login page
+LoginController -> LoginHtmlPage : fill up the page
+LoginHtmlPage --> User :get the page
+User -> LoginHtmlPage : insert the data
+
+@enduml

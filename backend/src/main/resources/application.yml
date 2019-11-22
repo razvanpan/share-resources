@@ -1,0 +1,4 @@
+jwt:
+  header: Authorization
+  secret: mySecret
+  expiration: 7200

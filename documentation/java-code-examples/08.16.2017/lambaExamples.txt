@@ -1,0 +1,102 @@
+
+@Service
+public class UserDaoImpl implements UserDao {
+
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+
+//	@Override
+//	public List<User> findAll() {
+//		System.out.println(
+//				"---------------------------------------------------------------------------------------------");
+//		String sql = "SELECT * FROM users ";
+//
+//		List<User> streetName = jdbcTemplate.query(sql, new RowMapper<User>() {
+//			@Override
+//			public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+//
+//				User user = new User();
+//				user.setId(rs.getInt("Id"));
+//				user.setEmail(rs.getString("email"));
+//				user.setPassword(rs.getString("password"));
+//				return user;
+//			}
+//		});
+//
+//		return streetName;
+//	}
+
+	// Java 8
+	@Override
+	public List<User> findAll() {
+		System.out.println(
+				"---------------------------------------------------------------------------------------------");
+		String sql = "SELECT * FROM users ";
+
+		List<User> users = jdbcTemplate.query(sql, (ResultSet rs, int rowNm) -> this.convertToUser(rs));
+
+		return users;
+	}
+	
+	@Override
+	public boolean deleteUser(int x) {
+		// int nrROws = jdbcTemplate.update("DELETE FROM users WHERE id = ?", x);
+		//
+		// return deleteuser;
+		return false;
+	}
+
+	// public User findbyId(int id){
+	// System.out.println("----------Find User By Id-------------------");
+	// String sql = "SELECT * FROM users WHERE id= ?";
+	//
+	// User user = jdbcTemplate.query(sql, new Object[] {id}, new
+	// ResultSetExtractor<User>() {
+	//
+	// @Override
+	// public User extractData(ResultSet rs) throws SQLException,
+	// DataAccessException {
+	// User user = new User();
+	// user.setId(rs.getInt("Id"));
+	// user.setEmail(rs.getString("email"));
+	// user.setPassword(rs.getString("password"));
+	// return user;
+	// }
+	// });
+	//
+	// return null;
+	// }
+
+	// Lamba expresion
+//	public User findbyId(int id) {
+//		System.out.println("----------Find User By Id-------------------");
+//		String sql = "SELECT * FROM users WHERE id= ?";
+//
+//		User user = jdbcTemplate.query(sql, new Object[] { id }, (ResultSet rs) -> {
+//			User usr = new User();
+//			usr.setId(rs.getInt("Id"));
+//			usr.setEmail(rs.getString("email"));
+//			usr.setPassword(rs.getString("password"));
+//			return usr;
+//		});
+//
+//		return user;
+//	}
+	
+	public User findbyId(int id) {
+		System.out.println("----------Find User By Id-------------------");
+		String sql = "SELECT * FROM users WHERE id= ?";
+
+		User user = jdbcTemplate.query(sql, new Object[] { id }, this::convertToUser);
+
+		return user;
+	}
+
+	private User convertToUser(ResultSet rs) throws SQLException {
+		User usr = new User();
+		usr.setId(rs.getInt("Id"));
+		usr.setEmail(rs.getString("email"));
+		usr.setPassword(rs.getString("password"));
+		return usr;
+	}
+}

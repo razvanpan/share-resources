@@ -1,0 +1,24 @@
+@startuml
+
+title
+ <b>Home Page</b>
+end title
+actor User
+autonumber
+
+User -> HomePage: request page
+HomePage -> HomeController: onInit()
+HomeController -> HttpService : getData() (last 10 resources that have been added and last 10 users that have been registered)
+HttpService -> REST_Backend: GET: 
+alt httpStatus other then 200
+    REST_Backend --> HttpService: empty JSON
+    HttpService --> HomeController: throw error "backend has unconsistant data,  data not found"
+    HomeController --> HomePage: fill error message in page
+    HomePage -->User:  get the error message
+end
+REST_Backend --> HttpService : Data as JSON
+HttpService --> HomeController: returns the Data as Object
+HomeController --> HomePage: fill up the page
+HomePage --> User : get requested page
+
+@enduml

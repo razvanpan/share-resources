@@ -1,0 +1,26 @@
+@startuml
+
+autonumber
+
+WebCient -> CategoryController: HTTP: GET /category
+CategoryController -> CategoryService: getAllCategories: CategoryDto 
+CategoryService ->CategoryDao: getAllCategories: CategoryBase
+CategoryDao -> DB: SQL query
+
+DB--> CategoryDao: Query Response
+
+alt categories not found
+    
+    CategoryDao --> CategoryService: null reference
+    CategoryService --> CategoryController: null reference 
+    CategoryController --> WebCient: HTTP code 204: content not found 
+end
+
+alt categories found
+    CategoryDao --> CategoryService: the CategoryBase
+    CategoryService -> CategoryService: convertToDto()
+    CategoryService --> CategoryController: the CategoryDto instance 
+    CategoryController --> WebCient: HTTP code 200: the CategoryDto as JSON 
+end
+
+@enduml

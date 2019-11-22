@@ -1,0 +1,226 @@
+<app-navbar></app-navbar>
+
+<div class="ui-g-2"></div>
+<div class="ui-g-8">
+  <div class="ui-g-12">
+    <h1>My Profile</h1>
+    <hr>
+  </div>
+  <div class="ui-g-8">
+    <div>
+      <p-fieldset legend="Data:">
+        <div class="ma">
+          <br><br>
+          <div>First Name: {{user.firstName}}</div>
+          <br>
+          <div>Last Name: {{user.lastName}}</div>
+          <br>
+          <div>U-number: {{user.username}}</div>
+          <br>
+          <div>E-mail: {{user.email}}</div>
+          <br>
+          <div>Short desription: {{user.shortDescription}}</div>
+          <br>
+          <div>Phone: {{user.phone}}</div>
+          <br><br><br>
+        </div>
+        <div class="buttons ">
+          <button type="button" (click)="edit($event)" class="btn btn-default" style="float: right;">Edit</button>
+        </div>
+      </p-fieldset>
+    </div>
+  </div>
+  <div class="ui-g-4">
+    <div class="imagecontainer">
+      <p-fieldset legend="Profile Picture">
+        <img class="pictura img-responsive" alt="Profile Picture" src="data:image/png;base64,{{user.photo}}" />
+        <br><br><br>
+      </p-fieldset>
+      <br>
+    </div>
+  </div>
+</div>
+<div class="ui-g-2"></div>
+
+<p-dialog [(visible)]="displayDialog" [width]="1100" modal="modal">
+  <div class="ui-g-12 ui-md-12 ui-sm-12">
+
+    <h1 style="color:white">My Profile</h1>
+    <hr>
+    <div class="ui-g-8">
+      <div>
+        <p-fieldset legend="Data:" ng-form="myForm">
+          <div class="ma">
+            <br>
+            <form [formGroup]="myForm" class="form-horizontal formular" (ngSubmit)="save(myForm.value)">
+
+              <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="userchange">
+                <div class="ui-grid-row">
+                  <div class="ui-grid-col-4"><label>First Name:</label></div>
+                  <div class="ui-grid-col-6">
+                    <fieldset class="form-group">
+                      <input class="ui-grid-col-6 form-control form-control-lg" formControlName="firstName" type="text" placeholder="{{userchange.firstName}}"  pInputText [(ngModel)]="userchange.firstName" />
+                    </fieldset>
+                  </div>
+                </div>
+                <div class="ui-grid-row">
+                  <div class="ui-grid-col-4"></div>
+                  <div class="ui-grid-col-6">
+                    <small [hidden]="myForm.controls.firstName.valid || (myForm.controls.firstName.pristine && !submitted)" class="text-danger">
+                      Only the first letter of your first name must be upper-case
+                    </small>
+                  </div>
+                </div>
+
+                <div class="ui-grid-row">
+                  <div class="ui-grid-col-4"><label>Last Name:</label></div>
+                  <div class="ui-grid-col-6">
+                    <fieldset class="form-group">
+                      <input class="ui-grid-col-6 form-control form-control-lg" formControlName="lastName" type="text" placeholder="{{userchange.lastName}}" pInputText [(ngModel)]="userchange.lastName" />
+                    </fieldset>
+                  </div>
+                </div>
+                <div class="ui-grid-row">
+                  <div class="ui-grid-col-4"></div>
+                  <div class="ui-grid-col-6">
+                    <small [hidden]="myForm.controls.lastName.valid || (myForm.controls.lastName.pristine && !submitted)" class="text-danger">
+                      Only the first letter of your Last name must be upper-case
+                    </small>
+                  </div>
+                </div>
+
+                <div class="ui-grid-row">
+                  <div class="ui-grid-col-4"><label>E-mail:</label></div>
+                  <div class="ui-grid-col-6">
+                    <fieldset class="form-group">
+                      <input class="ui-grid-col-6 form-control form-control-lg" formControlName="email" type="email" placeholder="{{userchange.email}}" pInputText [(ngModel)]="userchange.email" />
+                    </fieldset>
+                  </div>
+                </div>
+                <div class="ui-grid-row">
+                  <div class="ui-grid-col-4"></div>
+                  <div class="ui-grid-col-6">
+                    <small [hidden]="myForm.controls.email.valid || (myForm.controls.email.pristine && !submitted)" class="text-danger">
+                      Please insert your email address provided by in-tech (Example: [prefix]@in-tech.com)
+                    </small>
+                  </div>
+                </div>
+
+                <div class="ui-grid-row">
+                  <div class="ui-grid-col-4"><label>Short description:</label></div>
+                  <div class="ui-grid-col-6">
+                    <fieldset class="form-group">
+                      <textarea pInputTextarea type="text" class="form-control form-control-lg" formControlName="shortDescription" class="Decription-input ui-g-5 ui-sm-5" pInputText placeholder="{{userchange.shortDescription}}" [(ngModel)]="userchange.shortDescription"></textarea>
+                    </fieldset>
+                  </div>
+                </div>
+
+                <div class="ui-grid-row">
+                  <div class="ui-grid-col-4"><label>Phone:</label></div>
+                  <div class="ui-grid-col-6">
+                    <fieldset class="form-group">
+                      <input class="ui-grid-col-6 form-control form-control-lg" formControlName="phone" type="text" placeholder="{{userchange.phone}}" pInputText [(ngModel)]="userchange.phone" />
+                    </fieldset>
+                  </div>
+                </div>
+                <div class="ui-grid-row">
+                  <div class="ui-grid-col-4"></div>
+                  <div class="ui-grid-col-6">
+                    <small [hidden]="myForm.controls.phone.valid || (myForm.controls.phone.pristine && !submitted)" class="text-danger">
+                      The phone number must be valid and with a valid format (at least 10 digits, first digit is 0)
+                    </small>
+                  </div>
+                </div>
+              </div>
+              <br><br>
+              <div class="buttons">
+                <button type="submit" class="btn btn-default" style="float: right;">Save</button>
+                <button type="button" class="btn btn-default" (click)="cancel()" style="float: left;">Cancel</button>
+                <button type="button" class="btn btn-default" (click)="changePassword()" style="float: left;">Change password</button>
+              </div>
+            </form>
+          </div>
+        </p-fieldset>
+      </div>
+    </div>
+    <div class="ui-g-4">
+      <div class="imagecontainer">
+        <p-fieldset legend="Profile Picture">
+          <img class="pictura" alt="Profile Picture" src="data:image/png;base64,{{user.photo}}" class="img-responsive" />
+          <br>
+
+          <div>
+            <div>
+              <input type="file" id="filePicker" (change)="handleFileSelect($event)">
+            </div>
+            <br>
+
+          </div>
+        </p-fieldset>
+        <br>
+      </div>
+    </div>
+  </div>
+</p-dialog>
+
+<p-dialog [(visible)]="displayDialogPassword" [width]="1100" modal="modal">
+  <div class="ui-g-12 ui-md-12 ui-sm-12">
+    <h1 style="color:white">Change password</h1>
+    <p-messages [(value)]="msgs"></p-messages>
+    <hr>
+    <div class="ui-g-8">
+      <div>
+        <p-fieldset legend="Data:">
+          <div class="ma">
+            <br>
+            <form [formGroup]="changePasswordForm" novalidate class="form-horizontal formular">
+              <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="userchangePassword">
+                <div class="ui-grid-col-6">
+                  <div class="ui-grid-row">
+                    <div class="ui-grid-col-6"><label>Old Password:</label></div>
+                    <div class="ui-grid-col-8"><input type="password" pInputText name="oldPassword" [(ngModel)]="userchangePassword.oldPassword" formControlName="oldPassword"
+                      /></div>
+                  </div>
+                  <br>
+                  <div class="ui-grid-row">
+                    <div class="ui-grid-col-6"><label>New Password:</label></div>
+                    <div class="ui-grid-col-8"><input type="password" pInputText name="newPassword" [(ngModel)]="userchangePassword.newPassword" formControlName="newPassword"
+                      /></div>
+                  </div>
+                  <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"></div>
+                    <div class="ui-grid-col-6">
+                      <small [hidden]="changePasswordForm.controls.newPassword.valid || (changePasswordForm.controls.newPassword.pristine && !submitted)" class="text-danger" style="background-color: white;">
+                        The password must have minimum 8 characters and contain at least: 1 upper-case character, 1 digit and 1 special character
+                      </small>
+                    </div>
+                  </div>
+
+                  <br>
+                  <div class="ui-grid-row">
+                    <div class="ui-grid-col-6"><label>Repeat New Passowrd:</label></div>
+                    <div class="ui-grid-col-8"><input type="password" pInputText name="repetedNewPassword" [(ngModel)]="userchangePassword.repetedNewPassword" formControlName="repetedNewPassword" /></div>
+                  </div>
+                  <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"></div>
+                    <div class="ui-grid-col-6">
+                      <small [hidden]="changePasswordForm.controls.repetedNewPassword.valid || (changePasswordForm.controls.repetedNewPassword.pristine && !submitted)" class="text-danger" style="background-color: white;">
+                        The password must have minimum 8 characters and contain at least: 1 upper-case character, 1 digit, 1 special character and identical with NewPassword
+                      </small>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <br><br>
+              <div class="buttons">
+                <button type="button" class="btn btn-default" (click)="savePassword()" style="float: right;">Save</button>
+                <button type="button" class="btn btn-default" (click)="cancelPopUpPassword()" style="float: left;">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </p-fieldset>
+      </div>
+    </div>
+  </div>
+</p-dialog>

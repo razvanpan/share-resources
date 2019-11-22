@@ -1,0 +1,1 @@
+INSERT INTO public.category(name) VALUES ('Technical Book'), ('Belletristic Book'), ('Technical Articles'), ('Other Articles'), ('Trainings')

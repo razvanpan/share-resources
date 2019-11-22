@@ -1,0 +1,26 @@
+@startuml
+
+autonumber
+
+WebCient -> UserController: HTTP: POST /register
+UserController -> UserService: addUser: UserToInsertDto 
+UserService ->UserDao: addNewUser: UserBase
+UserDao -> DB: SQL query
+
+DB--> UserDao: Query Response
+
+alt user could not be added
+    
+    UserDao --> UserService: null reference
+    UserService --> UserController: null reference 
+    UserController --> WebCient: HTTP code 204: content not found 
+end
+
+alt user added
+    UserDao --> UserService: the UserToInsert
+    UserService -> UserService: convertToDto()
+    UserService --> UserController: the UserToInsertDto instance 
+    UserController --> WebCient: HTTP code 200: the UserToInsertDto as JSON 
+end
+
+@enduml

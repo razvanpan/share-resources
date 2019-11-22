@@ -1,0 +1,26 @@
+@startuml
+
+autonumber
+
+WebCient -> ResourceController: HTTP: GET /resource/{id}
+ResourceController -> ResourceService: getResourceById: ResourceDetailedDto 
+ResourceService ->ResourceDao: findResourceById: ResourceComplex
+ResourceDao -> DB: SQL query
+
+DB--> ResourceDao: Query Response
+
+alt resources not found
+    
+    ResourceDao --> ResourceService: null reference
+    ResourceService --> ResourceController: null reference 
+    ResourceController --> WebCient: HTTP code 204: content not found 
+end
+
+alt resources found
+    ResourceDao --> ResourceService: the ResourceComplex
+    ResourceService -> ResourceService: convertToDto()
+    ResourceService --> ResourceController: the ResourceDetailedto instance 
+    ResourceController --> WebCient: HTTP code 200: the ResourceDetailedDto as JSON 
+end
+
+@enduml

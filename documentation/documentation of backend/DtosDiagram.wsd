@@ -1,0 +1,135 @@
+@startuml
+
+
+package "Category"{
+class CategoryDto{
+long idCategory
+String name
+}
+}
+
+package "Login"{
+class LoginDto{
+String username
+String password
+}
+
+class LoginResponseDto{
+String token
+long idRUser
+}
+}
+
+
+package "Resource"{
+class ResourceDetailedDto{
+long idResource
+String title
+UserDetailDto userDetail
+Optional<String> type
+Optional<String> shortDescription
+String categoryName
+String[]tags
+Optional<byte[]>photo
+}
+
+class ResourceOfUser{
+long idResource
+long idCategory
+String title
+Optional<String> type
+Optional<String> shortDescription
+String categoryName
+String[]tags
+Optional<byte[]>photo
+}
+
+class ResourceToBrowseDto{
+long idResource
+String title
+String fullNameUser
+private long idUser
+Optional<String> type
+Optional<String> shortDescription
+String categoryName
+String[]tags
+Optional<byte[]>photo
+}
+
+class ResourceToEditDto{
+long idResource
+String title
+Optional<String> type
+Optional<String> shortDescription
+private long idCategory
+String[]tags
+Optional<byte[]>photo
+}
+
+
+class ResourceToInsertDto{
+String title
+private long idUser
+Optional<String> type
+Optional<String> shortDescription
+long idCategory
+String[]tags
+Optional<byte[]>photo
+}
+}
+
+package "User"{
+ ResourceDetailedDto *-- UserDetailDto
+class UserDetailDto{
+long idUser
+String firstname
+String lastname
+String email
+Optional<String> shortDescription
+Optional<String> phone
+Optional<byte[]>photo
+
+}
+
+class UserPasswordDto{
+long idUser
+String oldPassword
+String newPassword
+}
+
+
+class UserPersonalDetailDto{
+long idUser
+String firstname
+String lastname
+String username
+String password
+String email
+Optional<String> shortDescription
+Optional<String> phone
+Optional<byte[]>photo
+LocalDateTime registerDate
+}
+
+class UserToEditDto{
+long idUser
+String firstname
+String lastname
+String email
+Optional<String> shortDescription
+Optional<String> phone
+Optional<byte[]>photo
+}
+
+class UserToInsertDto{
+String firstname
+String lastname
+String username
+String password
+String email
+Optional<String> shortDescription
+Optional<String> phone
+
+}
+}
+@enduml

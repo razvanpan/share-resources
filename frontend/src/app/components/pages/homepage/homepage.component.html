@@ -1,0 +1,92 @@
+<app-navbar></app-navbar>
+<div class="ui-g-2"></div>
+<div class="ui-g-8">
+  <h1 class="page-header">Dashboard</h1>
+
+  <div class="ui-g-3">
+    <div class="panel panel-red">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="ui-g-3">
+            <i class="fa fa-users fa-5x"></i>
+          </div>
+          <div class="ui-g-9 text-right">
+            <div class="huge">26</div>
+            <div>Registered</div>
+            <div>Users</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui-g-3">
+    <div class="panel panel-yellow">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="ui-g-3">
+            <i class="fa fa-book fa-5x"></i>
+          </div>
+          <div class="ui-g-9 text-right">
+            <div class="huge">12</div>
+            <div>Resources</div>
+            <div>Submitted</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui-g-3">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="ui-g-3">
+            <i class="fa fa-handshake-o  fa-5x"></i>
+          </div>
+          <div class="ui-g-9 text-right">
+            <div class="huge">124</div>
+            <div>Lented</div>
+            <div>Succesfully</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui-g-3">
+    <div class="panel panel-green">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="ui-g-3">
+            <i class="fa fa-smile-o  fa-5x"></i>
+          </div>
+          <div class="ui-g-9 text-right">
+            <div class="huge">13</div>
+            <div>Satisfied</div>
+            <div>Users</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui-g-12" style="border-style: solid;">
+    <h1>News Feed</h1>
+    <hr>
+    <div class="ui-g-5">
+      <h2>Newly Registered User</h2>
+      <p-dataTable [value]="regResource">
+        <p-column *ngFor="let col of cols1" [field]="col.field" [header]="col.header"></p-column>
+      </p-dataTable>
+    </div>
+    <div class="ui-g-7">
+      <h2>Newly Added Resources</h2>
+      <p-dataTable [value]="regResource">
+        <p-column *ngFor="let col of cols" [field]="col.field" [header]="col.header"></p-column>
+      </p-dataTable>
+    </div>
+  </div>
+
+</div>
+<div class="ui-g-2"></div>

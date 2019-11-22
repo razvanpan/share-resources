@@ -1,0 +1,85 @@
+<br><br>
+<div class="ui-g-4 ui-md-4 ui-sm-1"></div>
+<div class="ui-g-4 ui-md-4 ui-sm-10 RegisterForm">
+  <p-messages [(value)]="msgs"></p-messages>
+  <img src="https://www.bestjobs.eu/media/cache/resolve/employer_logo/58a5c5db02dee.png" alt="in-tech" class="img-responsive">
+  <h1 class="H1Centered">CREATE ACCOUNT</h1><br>
+  <form [formGroup]="myForm" novalidate (ngSubmit)="save(myForm.value, myForm.valid)" class="form-horizontal formular">
+
+    <div class="ui-g-12">
+      <label for="" class="ui-g-3 ui-sm-3">First Name<span style="color: red" title="Required Field">*</span></label>
+      <input type="text" class="ui-g-5 ui-sm-5" formControlName="firstName" placeholder="John" onfocus="this.placeholder = ''"
+        onblur="this.placeholder = 'John'" pInputText>
+      <div class="ui-g-6">
+        <small [hidden]="myForm.controls.firstName.valid || (myForm.controls.firstName.pristine && !submitted)" class="text-danger">
+          Only the first letter of your first name must be upper-case
+        </small>
+      </div>
+    </div>
+
+    <div class="ui-g-12">
+      <label for="" class="ui-g-3 ui-sm-3">Last Name<span style="color: red" title="Required Field">*</span></label>
+      <input type="text" class="ui-g-5 ui-sm-5" formControlName="lastName" placeholder="Smith" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Smith'" pInputText>
+      <div class="ui-g-6">
+        <small [hidden]="myForm.controls.lastName.valid || (myForm.controls.lastName.pristine && !submitted)" class="text-danger">
+          Only the first letter of your last name must be upper-case
+        </small>
+      </div>
+    </div>
+
+    <div class="ui-g-12">
+      <label for="" class="ui-g-3 ui-sm-3">U-Number<span style="color: red" title="Required Field">*</span></label>
+      <input type="text" class="ui-g-5 ui-sm-5" formControlName="username" placeholder="Uxxxx (4 digits)" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Uxxxx (4 digits)'" pInputText>
+      <div class="ui-g-6">
+        <small [hidden]="myForm.controls.username.valid || (myForm.controls.username.pristine && !submitted)" class="text-danger">
+          Please insert your U-Number provided by in-tech
+          <br>
+          (Valid example: U1234)
+        </small>
+      </div>
+    </div>
+
+    <div class="ui-g-12">
+      <label for="" class="ui-g-3 ui-sm-3">Password<span style="color: red" title="Required Field">*</span></label>
+      <input type="password" class="ui-g-5 ui-sm-5" formControlName="password" placeholder="min 8, 1 upper, 1 digit & 1 special char" onfocus="this.placeholder = ''" onblur="this.placeholder = 'min 8, 1 upper, 1 digit & 1 special char'" pInputText>
+      <div class="ui-g-6">
+        <small [hidden]="myForm.controls.password.valid || (myForm.controls.password.pristine && !submitted)" class="text-danger">
+          The password must have minimum 8 characters and contain at least: 1 upper-case character, 1 digit and 1 special character
+        </small>
+      </div>
+    </div>
+
+    <div class="ui-g-12">
+      <label for="" class="ui-g-3 ui-sm-3">Email Address<span style="color: red" title="Required Field">*</span></label>
+      <input type="email" class="ui-g-5 ui-sm-5" formControlName="email" placeholder="[prefix]@in-tech.com" onfocus="this.placeholder = ''" onblur="this.placeholder = '[prefix]@in-tech.com'" required pInputText>
+      <div class="ui-g-6">
+        <small [hidden]="myForm.controls.email.valid || (myForm.controls.email.pristine && !submitted)" class="text-danger">
+          Please insert your email address provided by in-tech (Example: [prefix]@in-tech.com)
+        </small>
+      </div>
+    </div>
+
+    <div class="ui-g-12">
+      <label for="" class="ui-g-3 ui-sm-3">Phone Number<span style="color: red" title="Required Field">*</span></label>
+      <input type="tel" class="ui-g-5 ui-sm-5" formControlName="phone" placeholder="xxxx-xxx-xxx (10 digits)" onfocus="this.placeholder = ''" onblur="this.placeholder = 'xxxx-xxx-xxx (10 digits)'" required pInputText>
+      <div class="ui-g-6">
+        <small [hidden]="myForm.controls.phone.valid || (myForm.controls.phone.pristine && !submitted)" class="text-danger">
+          The phone number must be valid and with a valid format (at least 10 digits, first digit is 0)
+        </small>
+      </div>
+    </div>
+
+    <div class="ui-g-12">
+      <label for="" class="ui-g-3 ui-sm-3">Short Description</label>
+      <textarea pInputTextarea type="text" formControlName="shortDescription" class="Decription-input ui-g-5 ui-sm-5" placeholder="Tell us a bit about yourself" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tell us a bit about yourself'"></textarea>
+    </div>
+
+    <button type="submit" pButton style="float : right" [disabled]="!myForm.valid" label="Join Now"></button>
+    <button type="button" pButton routerLink="/login" label="Back"></button>
+    <div class="my-container">
+      <ngx-loading [show]="loading" [config]="{backdropBackgroundColour: 'rgb(255, 255, 255)', primaryColour: '#918888', secondaryColour: '#f48200', tertiaryColour: '#000000' }"></ngx-loading>
+    </div>
+    <br>
+  </form>
+</div>
+<div class="ui-g-4 ui-md-4 ui-sm-1"></div>

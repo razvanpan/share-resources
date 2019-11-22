@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="OFF">
+	<Properties>
+		<Property name="PATTERN">%d{yyyy-MM-dd HH:mm:ss,SSSSSS} \t%-5level \t[%t]    \t%c{1.}:%M (%L):\t  %m%n</Property>
+		<Property name="CSV_PATTERN">%d{yyyy-MM-dd HH:mm:ss,SSSSSS} _;%-5level;%t;%c;%M;line: %L;&quot;%replace{%maxLen{%m}{2000}}{(;)|(\r\n)}{ }&quot;%n</Property>
+    </Properties>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${PATTERN}"/>
+        </Console>
+
+        <RollingFile name="fileWriter"
+                     fileName="log.log"
+                     filePattern="$log.log.%d{yyyy-MM-dd-hh-mm}.gz">
+            <PatternLayout pattern="${PATTERN}"/>
+            <SizeBasedTriggeringPolicy size="50 MB"/>
+        </RollingFile>
+        
+<!--         <RollingFile name="csvFileWriter" -->
+<!--                      fileName="log.csv" -->
+<!--                      filePattern="$log.csv.%d{yyyy-MM-dd-hh-mm}.gz"> -->
+<!--             <PatternLayout pattern="${CSV_PATTERN}"/> -->
+<!--             <SizeBasedTriggeringPolicy size="50 MB"/> -->
+<!--         </RollingFile> -->
+    </Appenders>
+    <Loggers>
+	    
+        <Root level="INFO">
+        	<AppenderRef ref="Console"/>
+        	<AppenderRef ref="fileWriter"/>
+<!--             <AppenderRef ref="csvFileWriter"/> -->
+        </Root>
+    </Loggers>
+</Configuration>

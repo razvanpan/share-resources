@@ -1,0 +1,104 @@
+@startuml
+
+
+package "Category"{
+class CategoryBase{
+long idCategory
+String name
+}
+}
+
+package "NewsFeed"{
+class NewsFeed{
+long idNewsFeed
+byte[] photo
+String email
+String title
+String category
+String fullname
+}
+}
+package "Resource"{
+
+    class ResourceComplex{
+    long idResource
+    UserBase user
+    CategoryBase category
+    String title
+    Optional<String> type
+    Optional<byte[]> photo
+    Optional<String> shortDescription
+    String[] tags
+    LocalDateTime registerDate
+    }
+
+
+ResourceComplex *-- CategoryBase
+
+    class ResourceOfUser{
+    long idResource
+    String title
+    Optional<String> type
+    Optional<String> shortDescription
+    String categoryName
+    long idCategory
+    String[]tags
+    Optional<byte[]>photo
+    }
+
+    class ResourceToEdit{
+    long idResource
+    long idCategory
+    String title
+    Optional<String> type
+    Optional<String> shortDescription
+    String[]tags
+    Optional<byte[]>photo
+    }
+
+    class ResourceToInsert{
+    long idUser
+    long idCategory
+    String title
+    Optional<String> type
+    Optional<String> shortDescription
+    String[]tags
+    Optional<byte[]>photo
+    }
+}
+
+package "User"{
+    ResourceComplex *-- UserBase
+class UserBase{
+long idUser
+String firstname
+String lastname
+String username
+String password
+String email
+Optional<String> shortDescription
+Optional<String> phone
+Optional<byte[]>photo
+LocalDateTime registerDate
+}
+
+
+class UserPassword{
+long idUser
+String oldPassword
+String newPassword
+}
+
+
+class UserToEdit{
+long idUser
+String firstname
+String lastname
+String username
+String email
+Optional<String> shortDescription
+Optional<String> phone
+Optional<byte[]>photo
+}
+}
+@enduml
